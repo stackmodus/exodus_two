@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exodus T.W.O — The Way Out</title>
+  <meta name="description" content="Exodus T.W.O (The Way Out) is a 501(c) non-profit providing mental health support, prison programs, addiction treatment, and community services." />
+  <link rel="icon" href="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS-150x150.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#2563eb',600:'#1d4ed8',700:'#1e40af',800:'#1e3a8a',900:'#172554' },
+            warm: { 50:'#fdf8f0',100:'#faecd8',200:'#f5d6a8',300:'#edb96e',400:'#e6993a',500:'#d97706',600:'#b45309',700:'#92400e',800:'#78350f',900:'#451a03' },
+            accent: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534',900:'#14532d' },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .hero-overlay { background: linear-gradient(135deg, rgba(30,58,138,0.85) 0%, rgba(37,99,235,0.7) 50%, rgba(217,119,6,0.5) 100%); }
+    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); }
+    .card-hover { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+    .team-card img { transition: transform 0.5s ease; }
+    .team-card:hover img { transform: scale(1.05); }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .gradient-text { background: linear-gradient(135deg, #2563eb, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-link { position: relative; }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#d97706; transition:width 0.3s ease; }
+    .nav-link:hover::after { width:100%; }
+    .service-icon { transition: all 0.3s ease; }
+    .service-icon:hover { transform: rotate(5deg) scale(1.1); }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .float { animation: float 6s ease-in-out infinite; }
+    .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease; }
+    .mobile-menu.open { transform: translateX(0); }
+  </style>
+</head>
+<body class="font-sans text-gray-800 antialiased">
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="#" class="flex items-center gap-3">
+          <img src="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS.png" alt="Exodus T.W.O Logo" class="h-12 w-auto" />
+        </a>
+        <div class="hidden lg:flex items-center gap-8">
+          <a href="#home" class="nav-link text-white font-medium hover:text-warm-300 transition">Home</a>
+          <a href="#about" class="nav-link text-white font-medium hover:text-warm-300 transition">About</a>
+          <a href="#services" class="nav-link text-white font-medium hover:text-warm-300 transition">Services</a>
+          <a href="#team" class="nav-link text-white font-medium hover:text-warm-300 transition">Our Team</a>
+          <a href="#bible" class="nav-link text-white font-medium hover:text-warm-300 transition">Bible Study</a>
+          <a href="#blog" class="nav-link text-white font-medium hover:text-warm-300 transition">Blog</a>
+          <a href="#contact" class="nav-link text-white font-medium hover:text-warm-300 transition">Contact</a>
+          <a href="#donate" class="bg-warm-500 hover:bg-warm-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all hover:shadow-lg hover:shadow-warm-500/30">Donate</a>
+        </div>
+        <button id="menuBtn" class="lg:hidden text-white text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-72 h-full bg-primary-900/95 backdrop-blur-lg z-50 p-8 flex flex-col gap-6">
+    <button id="closeMenu" class="self-end text-white text-2xl mb-4"><i class="fas fa-times"></i></button>
+    <a href="#home" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">Home</a>
+    <a href="#about" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">About</a>
+    <a href="#services" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">Services</a>
+    <a href="#team" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">Our Team</a>
+    <a href="#bible" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">Bible Study</a>
+    <a href="#blog" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">Blog</a>
+    <a href="#contact" class="text-white text-lg font-medium hover:text-warm-300 transition mobile-link">Contact</a>
+    <a href="#donate" class="bg-warm-500 hover:bg-warm-600 text-white px-6 py-3 rounded-full font-semibold text-center transition mt-4">Donate</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative min-h-screen flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://exodustwo.org/wp-content/uploads/2023/06/therapist-comforting-patient-3958432.jpg" alt="Compassionate support" class="w-full h-full object-cover" />
+      <div class="hero-overlay absolute inset-0"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+      <div class="max-w-3xl">
+        <div class="glass inline-block px-4 py-2 rounded-full mb-6">
+          <span class="text-warm-300 text-sm font-semibold tracking-wider uppercase">501(c) Non-Profit Organization</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-display font-bold text-white leading-tight mb-6">
+          Compassionate Service,<br />
+          <span class="text-warm-300">A Way Out</span>
+        </h1>
+        <p class="text-lg sm:text-xl text-blue-100 leading-relaxed mb-10 max-w-2xl">
+          Exodus T.W.O (The Way Out) empowers individuals facing mental health challenges, incarceration, addiction, and homelessness with compassionate support and resources for recovery.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#services" class="bg-warm-500 hover:bg-warm-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-lg hover:shadow-warm-500/30 hover:-translate-y-0.5">
+            Our Services <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+          <a href="#about" class="glass text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/20 transition-all">
+            Learn More
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 float">
+      <a href="#about" class="text-white/60 hover:text-white transition">
+        <i class="fas fa-chevron-down text-2xl"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="bg-white shadow-lg relative z-20 -mt-16 mx-4 lg:mx-auto max-w-6xl rounded-2xl">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-0 divide-x divide-gray-100">
+      <div class="p-8 text-center">
+        <div class="text-3xl lg:text-4xl font-bold gradient-text">25+</div>
+        <p class="text-gray-500 mt-1 text-sm">Years Combined Experience</p>
+      </div>
+      <div class="p-8 text-center">
+        <div class="text-3xl lg:text-4xl font-bold gradient-text">4</div>
+        <p class="text-gray-500 mt-1 text-sm">Office Locations</p>
+      </div>
+      <div class="p-8 text-center">
+        <div class="text-3xl lg:text-4xl font-bold gradient-text">7</div>
+        <p class="text-gray-500 mt-1 text-sm">Dedicated Team Members</p>
+      </div>
+      <div class="p-8 text-center">
+        <div class="text-3xl lg:text-4xl font-bold gradient-text">10+</div>
+        <p class="text-gray-500 mt-1 text-sm">Programs &amp; Services</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 lg:py-32 bg-warm-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="fade-up relative">
+          <div class="relative">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/06/about-imgs.png" alt="About Exodus T.W.O" class="rounded-2xl shadow-2xl w-full" />
+            <img src="https://exodustwo.org/wp-content/uploads/2023/06/13.jpg" alt="Community support" class="absolute -bottom-8 -right-8 w-48 h-48 object-cover rounded-2xl shadow-xl border-4 border-white hidden lg:block" />
+            <div class="absolute -top-6 -left-6 bg-warm-500 text-white p-6 rounded-2xl shadow-lg hidden lg:block">
+              <img src="https://exodustwo.org/wp-content/uploads/2023/06/icon-4-1.png" alt="25 years" class="w-16 h-16" />
+            </div>
+          </div>
+        </div>
+        <div class="fade-up">
+          <span class="text-warm-500 font-semibold tracking-wider uppercase text-sm">About Us</span>
+          <h2 class="text-3xl lg:text-5xl font-display font-bold text-primary-900 mt-3 mb-6">Who We Are</h2>
+          <p class="text-gray-600 text-lg leading-relaxed mb-6">
+            Established on May 25, 2020, Exodus T.W.O (The Way Out) is a non-profit organization under section 501(c) of the United States Internal Revenue Code. Our name is inspired by the biblical account from the Book of Exodus, drawing a parallel between the plights of ancient Israelites and individuals grappling with mental illness in the modern world.
+          </p>
+          <p class="text-gray-600 text-lg leading-relaxed mb-8">
+            That's where Exodus T.W.O steps in, offering a way out from the constraints and difficulties caused by mental illness.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-4 mb-8">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <i class="fas fa-check text-primary-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary-900">Mental Health</h4>
+                <p class="text-gray-500 text-sm">Counseling &amp; crisis support</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <i class="fas fa-check text-primary-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary-900">Prison Programs</h4>
+                <p class="text-gray-500 text-sm">Advocacy &amp; rehabilitation</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <i class="fas fa-check text-primary-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary-900">Addiction Recovery</h4>
+                <p class="text-gray-500 text-sm">Treatment &amp; support</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <i class="fas fa-check text-primary-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary-900">Youth Services</h4>
+                <p class="text-gray-500 text-sm">Adolescent programs</p>
+              </div>
+            </div>
+          </div>
+          <a href="#services" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-8 py-3.5 rounded-full font-semibold transition-all hover:shadow-lg">
+            Explore Services <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="fade-up bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-10 lg:p-14 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="relative">
+            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
+              <i class="fas fa-eye text-3xl text-warm-300"></i>
+            </div>
+            <h3 class="text-2xl lg:text-3xl font-display font-bold mb-4">Vision Statement</h3>
+            <p class="text-blue-100 text-lg leading-relaxed">
+              To create a society where individuals facing mental health challenges including adolescence, the incarcerated, and homelessness receive compassionate support, equitable treatment, and access to opportunities for recovery, leading to a fulfilled and inclusive life.
+            </p>
+          </div>
+        </div>
+        <div class="fade-up bg-gradient-to-br from-warm-500 to-warm-700 rounded-3xl p-10 lg:p-14 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="relative">
+            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
+              <i class="fas fa-bullseye text-3xl text-blue-200"></i>
+            </div>
+            <h3 class="text-2xl lg:text-3xl font-display font-bold mb-4">Mission Statement</h3>
+            <p class="text-orange-100 text-lg leading-relaxed">
+              Exodus T.W.O is dedicated to empowering individuals including adolescence and the incarcerated with mental illness and their families by providing comprehensive support, advocacy, and resources. We strive to break the barriers and stigmas surrounding mental health and incarceration, offering a pathway to recovery and a way out.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 lg:py-32 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+        <span class="text-warm-500 font-semibold tracking-wider uppercase text-sm">What We Do</span>
+        <h2 class="text-3xl lg:text-5xl font-display font-bold text-primary-900 mt-3 mb-6">Our Services</h2>
+        <p class="text-gray-500 text-lg">We provide comprehensive support across multiple areas to help individuals find their way out.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Service 1 -->
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-gray-100 group">
+          <div class="service-icon w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary-600 transition-colors">
+            <i class="fas fa-brain text-2xl text-primary-600 group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 mb-3">Mental Health Support</h3>
+          <p class="text-gray-500 leading-relaxed">We offer immediate and compassionate mental health services for those diagnosed with various mental health disorders by directing them to where they can get immediate help.</p>
+        </div>
+        <!-- Service 2 -->
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-gray-100 group">
+          <div class="service-icon w-16 h-16 bg-warm-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-warm-500 transition-colors">
+            <i class="fas fa-hand-holding-heart text-2xl text-warm-600 group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 mb-3">Addiction &amp; Substance Abuse</h3>
+          <p class="text-gray-500 leading-relaxed">Our treatment program focuses on understanding the root causes of addiction and providing the necessary tools for recovery including counseling, group therapy, and recovery management.</p>
+        </div>
+        <!-- Service 3 -->
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-gray-100 group">
+          <div class="service-icon w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent-600 transition-colors">
+            <i class="fas fa-building-shield text-2xl text-accent-600 group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 mb-3">Inmate &amp; Prison Programs</h3>
+          <p class="text-gray-500 leading-relaxed">We advocate for incarcerated individuals with mental health conditions, working with court systems and probation offices to ensure fair treatment and provide rehabilitation resources.</p>
+        </div>
+        <!-- Service 4 -->
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-gray-100 group">
+          <div class="service-icon w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors">
+            <i class="fas fa-house-chimney-crack text-2xl text-red-500 group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 mb-3">Homeless Support</h3>
+          <p class="text-gray-500 leading-relaxed">Providing support and resettlement assistance for individuals experiencing homelessness, helping them rebuild their lives with dignity and access to essential resources.</p>
+        </div>
+        <!-- Service 5 -->
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-gray-100 group">
+          <div class="service-icon w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 transition-colors">
+            <i class="fas fa-children text-2xl text-purple-600 group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 mb-3">Adolescent Services</h3>
+          <p class="text-gray-500 leading-relaxed">Specialized programs addressing adolescent mental health and drug abuse, providing age-appropriate support and guidance for young people in need.</p>
+        </div>
+        <!-- Service 6 -->
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-gray-100 group">
+          <div class="service-icon w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-teal-600 transition-colors">
+            <i class="fas fa-laptop text-2xl text-teal-600 group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 mb-3">Digital Equity</h3>
+          <p class="text-gray-500 leading-relaxed">Promoting digital equity and connectivity to ensure underserved communities have access to technology and the digital resources they need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parallax CTA -->
+  <section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://exodustwo.org/wp-content/uploads/2023/06/a-man-and-a-woman-assisting-a-girl-while-jumping-1128317-1.jpg" alt="Community" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-primary-900/80"></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl lg:text-5xl font-display font-bold text-white mb-6">Together, We Can Make a Difference</h2>
+      <p class="text-blue-200 text-xl mb-10 max-w-2xl mx-auto">Your support helps us provide essential services to those who need them most. Join our mission to bring hope and healing.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#donate" class="bg-warm-500 hover:bg-warm-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all hover:shadow-lg hover:shadow-warm-500/30">
+          <i class="fas fa-heart mr-2"></i> Donate Now
+        </a>
+        <a href="#contact" class="border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-primary-900 transition-all">
+          Get Involved
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section id="team" class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+        <span class="text-warm-500 font-semibold tracking-wider uppercase text-sm">Meet Our Team</span>
+        <h2 class="text-3xl lg:text-5xl font-display font-bold text-primary-900 mt-3 mb-6">Our Bible Workers</h2>
+        <p class="text-gray-500 text-lg">Dedicated individuals committed to serving the community with compassion and faith.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Anne Ogutu -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/06/unnamed.png" alt="Anne Ogutu" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Anne Ogutu</h3>
+          <p class="text-warm-500 font-medium text-sm">Founder, Chaplain &amp; Bible Worker</p>
+        </div>
+        <!-- Gloria Ikonne -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-02-at-3.53.30-AM.jpeg" alt="Gloria Ikonne" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Gloria Ikonne</h3>
+          <p class="text-warm-500 font-medium text-sm">Director &amp; Bible Worker</p>
+        </div>
+        <!-- Delila Primer -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-11-at-4.52.24-PM-1.jpeg" alt="Delila Primer" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Delila Primer</h3>
+          <p class="text-warm-500 font-medium text-sm">Director &amp; Bible Worker — San Antonio</p>
+        </div>
+        <!-- Sheree Miller -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-16-at-10.59.59-AM-1.jpeg" alt="Sheree Miller" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Sheree Miller</h3>
+          <p class="text-warm-500 font-medium text-sm">Director &amp; Bible Worker — Louisiana</p>
+        </div>
+        <!-- Pauline Pennant -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-09-at-3.32.06-PM-1.jpeg" alt="Pauline Pennant" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Pauline Pennant</h3>
+          <p class="text-warm-500 font-medium text-sm">Director Adolescent Programs — Houston</p>
+        </div>
+        <!-- Theresa Hamilton -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/06/Theresa-Hamilton-Bible-Worker.jpg" alt="Theresa Hamilton" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Theresa Hamilton</h3>
+          <p class="text-warm-500 font-medium text-sm">Bible Worker — Louisiana</p>
+        </div>
+        <!-- Sonia Samuel -->
+        <div class="fade-up team-card group">
+          <div class="relative rounded-2xl overflow-hidden mb-5 aspect-[3/4]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-25-at-10.38.32-AM-1.jpeg" alt="Sonia Samuel" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <div class="flex gap-3">
+                <a href="#" class="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-warm-500 transition"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-primary-900">Sonia Samuel</h3>
+          <p class="text-warm-500 font-medium text-sm">Volunteer Bi-Lingual Bible Worker</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bible Study Section -->
+  <section id="bible" class="py-24 bg-warm-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+        <span class="text-warm-500 font-semibold tracking-wider uppercase text-sm">Daily Inspiration</span>
+        <h2 class="text-3xl lg:text-5xl font-display font-bold text-primary-900 mt-3 mb-6">Bible Verses</h2>
+        <p class="text-gray-500 text-lg">Scripture and thoughts shared by our community to inspire and uplift.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-warm-100 relative">
+          <div class="absolute top-6 right-6 text-warm-200 text-5xl font-display">&ldquo;</div>
+          <p class="text-gray-600 leading-relaxed italic mb-6">"The very God of peace sanctify you wholly; and I pray God your whole spirit and soul and body be preserved blameless unto the coming of our Lord Jesus Christ"</p>
+          <p class="text-primary-700 font-semibold">1 Thessalonians 5:23</p>
+        </div>
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-warm-100 relative">
+          <div class="absolute top-6 right-6 text-warm-200 text-5xl font-display">&ldquo;</div>
+          <p class="text-gray-600 leading-relaxed italic mb-6">"Yet a little while, and He that shall come will come, and will not tarry." Let us be encouraged by the thought that the Lord is soon to come.</p>
+          <p class="text-primary-700 font-semibold">Hebrews 10:37</p>
+        </div>
+        <div class="fade-up card-hover bg-white rounded-2xl p-8 shadow-sm border border-warm-100 relative">
+          <div class="absolute top-6 right-6 text-warm-200 text-5xl font-display">&ldquo;</div>
+          <p class="text-gray-600 leading-relaxed italic mb-6">"As far as the east is from the west, so far hath he removed our transgressions from us." David expressed the great extent and completeness of God's forgiveness.</p>
+          <p class="text-primary-700 font-semibold">Psalms 103:12</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog" class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+        <span class="text-warm-500 font-semibold tracking-wider uppercase text-sm">Recent Articles</span>
+        <h2 class="text-3xl lg:text-5xl font-display font-bold text-primary-900 mt-3 mb-6">Latest Blog Posts</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="fade-up card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="overflow-hidden aspect-[16/10]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/Screenshot_187.png" alt="Bible Discussion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="bg-primary-100 text-primary-700 text-xs font-semibold px-3 py-1 rounded-full">Bible Study</span>
+              <span class="text-gray-400 text-sm">July 5, 2023</span>
+            </div>
+            <h3 class="text-lg font-bold text-primary-900 mb-2 group-hover:text-primary-600 transition">Bible Discussion</h3>
+            <p class="text-gray-500 text-sm mb-4">"And Jesus said unto them, See ye not all these things? verily I say unto you..."</p>
+            <span class="text-primary-600 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+          </div>
+        </div>
+        <div class="fade-up card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="overflow-hidden aspect-[16/10]">
+            <img src="https://exodustwo.org/wp-content/uploads/2023/07/End-of-The-World-Signs.png" alt="Prophetic Signs" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="bg-warm-100 text-warm-700 text-xs font-semibold px-3 py-1 rounded-full">Prophecy</span>
+              <span class="text-gray-400 text-sm">July 5, 2023</span>
+            </div>
+            <h3 class="text-lg font-bold text-primary-900 mb-2 group-hover:text-primary-600 transition">The Prophetic Signs of The End of The World</h3>
+            <p class="text-gray-500 text-sm mb-4">Various passages in the Bible speak about signs that are said to indicate the approach...</p>
+            <span class="text-primary-600 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+          </div>
+        </div>
+        <div class="fade-up card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="overflow-hidden aspect-[16/10]">
+            <img src="https://exodustwo.org/wp-content/uploads/2020/07/zach-vessels-leUFTSlCEXk-unsplash.webp" alt="Domestic Violence" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">Awareness</span>
+              <span class="text-gray-400 text-sm">July 4, 2020</span>
+            </div>
+            <h3 class="text-lg font-bold text-primary-900 mb-2 group-hover:text-primary-600 transition">Domestic Violence in Families and Fear of Exposure</h3>
+            <p class="text-gray-500 text-sm mb-4">In September 2012 I got a call from a friend who asked me to go to...</p>
+            <span class="text-primary-600 font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Donate Section -->
+  <section id="donate" class="py-24 bg-gradient-to-br from-warm-500 via-warm-600 to-primary-700 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2"></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+      <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8">
+        <i class="fas fa-heart text-4xl text-white"></i>
+      </div>
+      <h2 class="text-3xl lg:text-5xl font-display font-bold text-white mb-6">Support Our Mission</h2>
+      <p class="text-orange-100 text-xl mb-10 max-w-2xl mx-auto">Every donation helps us provide essential mental health services, prison programs, and support for those in need. Together we can offer a way out.</p>
+      <a href="mailto:info@exodustwo.org?subject=Donation%20Inquiry" class="inline-flex items-center gap-2 bg-white text-warm-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:shadow-xl hover:-translate-y-0.5">
+        <i class="fas fa-hand-holding-heart"></i> Make a Donation
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 lg:py-32 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div class="fade-up">
+          <span class="text-warm-500 font-semibold tracking-wider uppercase text-sm">Get In Touch</span>
+          <h2 class="text-3xl lg:text-5xl font-display font-bold text-primary-900 mt-3 mb-6">Contact Us</h2>
+          <p class="text-gray-500 text-lg mb-10">Have questions or need help? Reach out to us. We're here to support you.</p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-location-dot text-primary-600"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary-900 mb-1">Main Office — Dallas</h4>
+                <p class="text-gray-500">4245 N Central Expy, Ste 490<br />Dallas, TX 75205, United States</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-warm-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-location-dot text-warm-600"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary-900 mb-1">Branch Offices</h4>
+                <p class="text-gray-500">
+                  San Antonio: 7810 Bluewater Cove, TX 78254<br />
+                  Richmond: 23510 Windy Bank Lane, TX 77407<br />
+                  Louisiana: 2924 Keithway Drive, Harvey, LA 70056
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-envelope text-accent-600"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary-900 mb-1">Email</h4>
+                <p class="text-gray-500">
+                  <a href="mailto:info@exodustwo.org" class="hover:text-primary-600 transition">info@exodustwo.org</a><br />
+                  <a href="mailto:support@exodustwo.org" class="hover:text-primary-600 transition">support@exodustwo.org</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4 mt-10">
+            <a href="#" class="w-12 h-12 bg-primary-600 hover:bg-primary-700 rounded-xl flex items-center justify-center text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="w-12 h-12 bg-pink-600 hover:bg-pink-700 rounded-xl flex items-center justify-center text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="w-12 h-12 bg-sky-500 hover:bg-sky-600 rounded-xl flex items-center justify-center text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="w-12 h-12 bg-blue-700 hover:bg-blue-800 rounded-xl flex items-center justify-center text-white transition"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="w-12 h-12 bg-red-600 hover:bg-red-700 rounded-xl flex items-center justify-center text-white transition"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full min-h-[400px]">
+            <iframe
+              src="https://maps.google.com/maps?q=4245%20N%20Central%20Expy%2C%20Ste%20490%20Dallas%2C%20TX%2075205%2C%20United%20States&t=m&z=12&output=embed&iwloc=near"
+              title="Exodus T.W.O Office Location"
+              class="w-full h-full min-h-[400px]"
+              style="border:0;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary-900 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div>
+          <img src="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS.png" alt="Exodus T.W.O Logo" class="h-14 mb-4" />
+          <p class="text-blue-200 leading-relaxed">Empowering individuals facing mental health challenges with compassionate support and a pathway to recovery.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="#about" class="text-blue-200 hover:text-warm-300 transition">About Us</a></li>
+            <li><a href="#services" class="text-blue-200 hover:text-warm-300 transition">Services</a></li>
+            <li><a href="#team" class="text-blue-200 hover:text-warm-300 transition">Our Team</a></li>
+            <li><a href="#blog" class="text-blue-200 hover:text-warm-300 transition">Blog</a></li>
+            <li><a href="#contact" class="text-blue-200 hover:text-warm-300 transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-lg mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="#services" class="text-blue-200 hover:text-warm-300 transition">Mental Health</a></li>
+            <li><a href="#services" class="text-blue-200 hover:text-warm-300 transition">Prison Programs</a></li>
+            <li><a href="#services" class="text-blue-200 hover:text-warm-300 transition">Addiction Recovery</a></li>
+            <li><a href="#services" class="text-blue-200 hover:text-warm-300 transition">Homeless Support</a></li>
+            <li><a href="#services" class="text-blue-200 hover:text-warm-300 transition">Adolescent Services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-lg mb-4">Newsletter</h4>
+          <p class="text-blue-200 mb-4">Stay updated with our latest news and events.</p>
+          <form class="flex">
+            <input type="email" placeholder="Your email" class="flex-1 bg-primary-800 border border-primary-700 rounded-l-lg px-4 py-2.5 text-white placeholder-blue-300 focus:outline-none focus:border-warm-500" />
+            <button type="submit" class="bg-warm-500 hover:bg-warm-600 px-5 py-2.5 rounded-r-lg transition">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="border-t border-primary-800 pt-8 text-center">
+        <p class="text-blue-300 text-sm">&copy; 2024 Exodus T.W.O (The Way Out). All rights reserved. | 501(c) Non-Profit Organization</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-primary-900/95', 'backdrop-blur-lg', 'shadow-lg');
+      } else {
+        navbar.classList.remove('bg-primary-900/95', 'backdrop-blur-lg', 'shadow-lg');
+      }
+    });
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+    closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
