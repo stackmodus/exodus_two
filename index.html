@@ -6,6 +6,12 @@
   <title>Exodus T.W.O — The Way Out</title>
   <meta name="description" content="Exodus T.W.O (The Way Out) is a 501(c) non-profit providing mental health support, prison programs, addiction treatment, and community services." />
   <link rel="icon" href="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS-150x150.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a3f36" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Exodus TWO" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
@@ -458,6 +464,11 @@
     const todayVerse = hopeVerses[dayOfYear % hopeVerses.length];
     document.getElementById('dailyVerse').textContent = '"' + todayVerse.text + '"';
     document.getElementById('dailyRef').textContent = '— ' + todayVerse.ref;
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
 
     const obs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('shown'); }); }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
