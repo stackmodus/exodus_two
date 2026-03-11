@@ -170,18 +170,6 @@
         <input id="contactDallas" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">San Antonio Address</label>
-        <input id="contactSA" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Richmond Address</label>
-        <input id="contactRichmond" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Louisiana Address</label>
-        <input id="contactLA" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
-      </div>
-      <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Email 1</label>
         <input id="contactEmail1" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
       </div>
@@ -366,9 +354,6 @@
       ],
       contact: {
         dallas: '4245 N Central Expy, Ste 490, TX 75205',
-        sa: 'San Antonio: 7810 Bluewater Cove, TX 78254',
-        richmond: 'Richmond: 23510 Windy Bank Ln, TX 77407',
-        la: 'Louisiana: 2924 Keithway Dr, Harvey, LA 70056',
         email1: 'info@exodustwo.org',
         email2: 'support@exodustwo.org',
         phone: '',
@@ -441,9 +426,6 @@
       });
 
       document.getElementById('contactDallas').value = c.dallas;
-      document.getElementById('contactSA').value = c.sa;
-      document.getElementById('contactRichmond').value = c.richmond;
-      document.getElementById('contactLA').value = c.la;
       document.getElementById('contactEmail1').value = c.email1;
       document.getElementById('contactEmail2').value = c.email2;
       document.getElementById('contactPhone').value = c.phone || '';
@@ -561,9 +543,6 @@
         team: [],
         contact: {
           dallas: document.getElementById('contactDallas').value.trim(),
-          sa: document.getElementById('contactSA').value.trim(),
-          richmond: document.getElementById('contactRichmond').value.trim(),
-          la: document.getElementById('contactLA').value.trim(),
           email1: document.getElementById('contactEmail1').value.trim(),
           email2: document.getElementById('contactEmail2').value.trim(),
           phone: document.getElementById('contactPhone').value.trim(),
@@ -629,9 +608,6 @@
       document.getElementById('aboutVision').value = cfg.about.vision;
       document.getElementById('aboutMission').value = cfg.about.mission;
       document.getElementById('contactDallas').value = cfg.contact.dallas;
-      document.getElementById('contactSA').value = cfg.contact.sa;
-      document.getElementById('contactRichmond').value = cfg.contact.richmond;
-      document.getElementById('contactLA').value = cfg.contact.la;
       document.getElementById('contactEmail1').value = cfg.contact.email1;
       document.getElementById('contactEmail2').value = cfg.contact.email2;
       document.getElementById('contactPhone').value = cfg.contact.phone;

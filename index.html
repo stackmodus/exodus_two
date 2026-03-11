@@ -350,14 +350,6 @@
               </div>
             </div>
             <div class="flex gap-3">
-              <i class="fas fa-location-dot text-brand-400 mt-1"></i>
-              <div>
-                <p id="ed-contactSA" class="text-brand-700">San Antonio: 7810 Bluewater Cove, TX 78254</p>
-                <p id="ed-contactRichmond" class="text-brand-700">Richmond: 23510 Windy Bank Ln, TX 77407</p>
-                <p id="ed-contactLA" class="text-brand-700">Louisiana: 2924 Keithway Dr, Harvey, LA 70056</p>
-              </div>
-            </div>
-            <div class="flex gap-3">
               <i class="fas fa-envelope text-gold-500 mt-1"></i>
               <div>
                 <a id="ed-contactEmail1" href="mailto:info@exodustwo.org" class="text-brand-700 hover:text-brand-600 transition block">info@exodustwo.org</a>
@@ -493,9 +485,6 @@
         // Contact
         if (_cfg.contact) {
           s('ed-contactDallas', _cfg.contact.dallas);
-          s('ed-contactSA', _cfg.contact.sa);
-          s('ed-contactRichmond', _cfg.contact.richmond);
-          s('ed-contactLA', _cfg.contact.la);
           const e1 = document.getElementById('ed-contactEmail1');
           const e2 = document.getElementById('ed-contactEmail2');
           if (e1 && _cfg.contact.email1) { e1.textContent = _cfg.contact.email1; e1.href = 'mailto:' + _cfg.contact.email1; }
