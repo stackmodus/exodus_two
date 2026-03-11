@@ -45,7 +45,14 @@
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
   </style>
 </head>
-<body class="font-sans text-brand-900 bg-sand-50 antialiased">
+<body class="font-sans text-brand-900 bg-sand-50 antialiased overscroll-none">
+
+  <!-- Pull to Refresh Indicator -->
+  <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-[1000] flex items-center justify-center pointer-events-none transition-transform duration-200" style="transform:translateY(-60px)">
+    <div class="bg-brand-700 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
+      <i id="pullIcon" class="fas fa-arrow-down text-sm transition-transform duration-200"></i>
+    </div>
+  </div>
 
   <!-- Nav + Sticky Marquee -->
   <div class="sticky top-0 z-50">
@@ -480,6 +487,38 @@
     document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('mobileNav').classList.add('open'));
     document.getElementById('closeNav').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open'));
     document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open')));
+
+    // Pull to Refresh
+    let pullStart = 0, pulling = false;
+    const pullEl = document.getElementById('pullIndicator');
+    const pullIcon = document.getElementById('pullIcon');
+    const threshold = 80;
+
+    document.addEventListener('touchstart', e => {
+      if (window.scrollY === 0) { pullStart = e.touches[0].clientY; pulling = true; }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (!pulling) return;
+      const dist = Math.min(e.touches[0].clientY - pullStart, 140);
+      if (dist > 0) {
+        pullEl.style.transform = 'translateY(' + (dist - 20) + 'px)';
+        pullIcon.style.transform = dist >= threshold ? 'rotate(180deg)' : 'rotate(0)';
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (!pulling) return;
+      const current = parseFloat(pullEl.style.transform.replace(/[^0-9.-]/g,'')) || 0;
+      pulling = false;
+      if (current + 20 >= threshold) {
+        pullIcon.className = 'fas fa-spinner fa-spin text-sm';
+        pullEl.style.transform = 'translateY(20px)';
+        setTimeout(() => location.reload(), 400);
+      } else {
+        pullEl.style.transform = 'translateY(-60px)';
+      }
+    });
   </script>
 </body>
 </html>
