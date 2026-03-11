@@ -7,80 +7,435 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>body { font-family: 'DM Sans', sans-serif; }</style>
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .tab-btn.active { background: #d4982b; color: #fff; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    textarea { resize: vertical; }
+  </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-  <div class="max-w-lg mx-auto px-4 py-12">
-    <div class="text-center mb-8">
-      <img src="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS.png" alt="Exodus T.W.O" class="h-14 mx-auto mb-4" />
-      <h1 class="font-serif text-2xl text-gray-900" style="font-family:'DM Serif Display'">Admin Settings</h1>
-      <p class="text-gray-500 text-sm mt-1">Configure donation payment methods</p>
+
+  <!-- Header -->
+  <div class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS.png" alt="Exodus T.W.O" class="h-8" />
+        <span class="font-semibold text-gray-900">Admin Panel</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-gray-500 hover:text-gray-700 text-sm"><i class="fas fa-external-link-alt mr-1"></i>View Site</a>
+        <button onclick="saveAll()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition cursor-pointer">
+          <i class="fas fa-save mr-1"></i>Save All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-4 py-6">
+    <!-- Status -->
+    <div id="status" class="hidden mb-4 text-center text-sm font-medium py-2.5 rounded-lg"></div>
+
+    <!-- Tabs -->
+    <div class="flex flex-wrap gap-2 mb-6">
+      <button class="tab-btn active px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="hero"><i class="fas fa-home mr-1"></i>Hero</button>
+      <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="about"><i class="fas fa-info-circle mr-1"></i>About</button>
+      <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="services"><i class="fas fa-cogs mr-1"></i>Services</button>
+      <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="team"><i class="fas fa-users mr-1"></i>Team</button>
+      <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="contact"><i class="fas fa-envelope mr-1"></i>Contact</button>
+      <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="donate"><i class="fas fa-heart mr-1"></i>Donate</button>
+      <button class="tab-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 transition cursor-pointer" data-tab="social"><i class="fas fa-share-alt mr-1"></i>Social</button>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-5">
-      <h2 class="font-semibold text-gray-900 flex items-center gap-2"><i class="fas fa-heart text-amber-500"></i> Donation Settings</h2>
-
+    <!-- Hero Tab -->
+    <div class="tab-panel active bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-hero">
+      <h2 class="font-semibold text-gray-900 text-lg">Hero Section</h2>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          <i class="fab fa-whatsapp text-green-500 mr-1"></i> WhatsApp Number
-        </label>
-        <input id="whatsapp" type="text" placeholder="+1 (555) 000-0000" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+        <label class="block text-sm font-medium text-gray-700 mb-1">Headline (Line 1)</label>
+        <input id="heroLine1" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Headline (Line 2 - gold text)</label>
+        <input id="heroLine2" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+        <textarea id="heroSubtitle" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Hero Background Image URL</label>
+        <input id="heroImage" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Stat 1 Number</label>
+          <input id="stat1Num" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Stat 2 Number</label>
+          <input id="stat2Num" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Stat 3 Number</label>
+          <input id="stat3Num" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Stat 1 Label</label>
+          <input id="stat1Label" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Stat 2 Label</label>
+          <input id="stat2Label" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Stat 3 Label</label>
+          <input id="stat3Label" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+      </div>
+    </div>
+
+    <!-- About Tab -->
+    <div class="tab-panel bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-about">
+      <h2 class="font-semibold text-gray-900 text-lg">About Section</h2>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Section Title</label>
+        <input id="aboutTitle" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Paragraph 1</label>
+        <textarea id="aboutP1" rows="4" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Paragraph 2</label>
+        <textarea id="aboutP2" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Vision Statement</label>
+        <textarea id="aboutVision" rows="2" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Mission Statement</label>
+        <textarea id="aboutMission" rows="2" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none"></textarea>
+      </div>
+    </div>
+
+    <!-- Services Tab -->
+    <div class="tab-panel bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-services">
+      <h2 class="font-semibold text-gray-900 text-lg">Services</h2>
+      <p class="text-gray-400 text-xs">Edit the name and description of each service.</p>
+      <div id="servicesContainer"></div>
+    </div>
+
+    <!-- Team Tab -->
+    <div class="tab-panel bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-team">
+      <h2 class="font-semibold text-gray-900 text-lg">Bible Workers</h2>
+      <p class="text-gray-400 text-xs">Edit team member names, titles, and photo URLs.</p>
+      <div id="teamContainer"></div>
+    </div>
+
+    <!-- Contact Tab -->
+    <div class="tab-panel bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-contact">
+      <h2 class="font-semibold text-gray-900 text-lg">Contact Info</h2>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Main Office (Dallas)</label>
+        <input id="contactDallas" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">San Antonio Address</label>
+        <input id="contactSA" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Richmond Address</label>
+        <input id="contactRichmond" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Louisiana Address</label>
+        <input id="contactLA" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email 1</label>
+        <input id="contactEmail1" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email 2</label>
+        <input id="contactEmail2" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+        <input id="contactPhone" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Google Maps Embed Query</label>
+        <input id="contactMap" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+        <p class="text-gray-400 text-xs mt-1">Address for the embedded map</p>
+      </div>
+    </div>
+
+    <!-- Donate Tab -->
+    <div class="tab-panel bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-donate">
+      <h2 class="font-semibold text-gray-900 text-lg">Donation Settings</h2>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><i class="fab fa-whatsapp text-green-500 mr-1"></i> WhatsApp Number</label>
+        <input id="whatsapp" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
         <p class="text-gray-400 text-xs mt-1">Include country code, e.g. +1 for US</p>
       </div>
-
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          <span class="inline-flex items-center justify-center w-4 h-4 bg-violet-600 rounded text-white text-[10px] font-bold mr-1">Z</span> Zelle Email or Phone
-        </label>
-        <input id="zelle" type="text" placeholder="info@exodustwo.org" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
-        <p class="text-gray-400 text-xs mt-1">Email or phone number registered with Zelle</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><span class="inline-flex items-center justify-center w-4 h-4 bg-violet-600 rounded text-white text-[10px] font-bold mr-1">Z</span> Zelle Email or Phone</label>
+        <input id="zelle" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
       </div>
-
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          <i class="fab fa-paypal text-blue-600 mr-1"></i> PayPal Link
-        </label>
-        <input id="paypal" type="text" placeholder="https://paypal.me/exodustwo" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
-        <p class="text-gray-400 text-xs mt-1">Your PayPal.me link or donation page URL</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><i class="fab fa-paypal text-blue-600 mr-1"></i> PayPal Link</label>
+        <input id="paypal" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
       </div>
-
-      <button onclick="saveSettings()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-lg font-semibold transition cursor-pointer">
-        <i class="fas fa-save mr-2"></i>Save Settings
-      </button>
-
-      <div id="status" class="hidden text-center text-sm font-medium py-2 rounded-lg"></div>
     </div>
 
-    <div class="mt-6 text-center">
-      <a href="index.html" class="text-amber-600 hover:text-amber-700 text-sm font-medium"><i class="fas fa-arrow-left mr-1"></i> Back to Site</a>
+    <!-- Social Tab -->
+    <div class="tab-panel bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4" id="panel-social">
+      <h2 class="font-semibold text-gray-900 text-lg">Social Media Links</h2>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><i class="fab fa-facebook-f text-blue-600 mr-1"></i> Facebook URL</label>
+        <input id="socialFacebook" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><i class="fab fa-instagram text-pink-500 mr-1"></i> Instagram URL</label>
+        <input id="socialInstagram" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><i class="fab fa-twitter text-sky-500 mr-1"></i> Twitter/X URL</label>
+        <input id="socialTwitter" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"><i class="fab fa-youtube text-red-600 mr-1"></i> YouTube URL</label>
+        <input id="socialYoutube" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+      </div>
+    </div>
+
+    <!-- Bottom save -->
+    <div class="mt-6 flex items-center justify-between">
+      <button onclick="resetAll()" class="text-red-500 hover:text-red-700 text-sm font-medium cursor-pointer"><i class="fas fa-undo mr-1"></i>Reset to Defaults</button>
+      <button onclick="saveAll()" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition cursor-pointer"><i class="fas fa-save mr-1"></i>Save All Changes</button>
     </div>
   </div>
 
   <script>
-    const defaults = {
-      whatsapp: '+1 (555) 000-0000',
-      zelle: 'info@exodustwo.org',
-      paypal: 'https://paypal.me/exodustwo'
+    // ===== Default Values =====
+    const DEFAULTS = {
+      hero: {
+        line1: 'Compassionate Service,',
+        line2: 'A Way Out',
+        subtitle: 'Exodus T.W.O empowers individuals facing mental health challenges, incarceration, addiction, and homelessness with real pathways to recovery.',
+        image: 'https://exodustwo.org/wp-content/uploads/2023/06/therapist-comforting-patient-3958432.jpg',
+        stat1Num: '25+', stat1Label: 'Years Exp.',
+        stat2Num: '4', stat2Label: 'Locations',
+        stat3Num: '10+', stat3Label: 'Programs',
+      },
+      about: {
+        title: 'Who We Are',
+        p1: 'Exodus T.W.O (The Way Out) is a non-profit inspired by the Book of Exodus - drawing a parallel between the plights of ancient Israelites and individuals grappling with mental illness today. We offer a way out from the constraints caused by mental illness.',
+        p2: 'Through collaboration with various stakeholders, we facilitate access to counseling, legal advocacy, employment opportunities, and community integration.',
+        vision: 'A society where everyone receives compassionate support and equitable treatment.',
+        mission: 'Breaking barriers and stigmas, offering a pathway to recovery for all.',
+      },
+      services: [
+        { name: 'Mental Health', desc: 'Counseling, crisis intervention, and resources for those with mental health disorders.' },
+        { name: 'Addiction Recovery', desc: 'Root-cause treatment with counseling, group therapy, and recovery management.' },
+        { name: 'Prison Programs', desc: 'Advocacy for incarcerated individuals - fair treatment and rehabilitation resources.' },
+        { name: 'Homeless Support', desc: 'Resettlement assistance to rebuild lives with dignity and essential resources.' },
+        { name: 'Youth Services', desc: 'Specialized programs for adolescent mental health and substance abuse.' },
+        { name: 'Digital Equity', desc: 'Bridging the digital divide for underserved communities.' },
+      ],
+      team: [
+        { name: 'Anne Ogutu', title: 'Founder, Chaplain & Bible Worker', image: 'https://exodustwo.org/wp-content/uploads/2023/06/unnamed.png' },
+        { name: 'Gloria Ikonne', title: 'Director & Bible Worker', image: 'https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-02-at-3.53.30-AM.jpeg' },
+        { name: 'Pauline Pennant', title: 'Director Adolescent Programs - Houston', image: 'https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-09-at-3.32.06-PM-1.jpeg' },
+      ],
+      contact: {
+        dallas: '4245 N Central Expy, Ste 490, TX 75205',
+        sa: 'San Antonio: 7810 Bluewater Cove, TX 78254',
+        richmond: 'Richmond: 23510 Windy Bank Ln, TX 77407',
+        la: 'Louisiana: 2924 Keithway Dr, Harvey, LA 70056',
+        email1: 'info@exodustwo.org',
+        email2: 'support@exodustwo.org',
+        phone: '',
+        map: '4245 N Central Expy, Ste 490 Dallas, TX 75205',
+      },
+      donate: {
+        whatsapp: '+1 (555) 000-0000',
+        zelle: 'info@exodustwo.org',
+        paypal: 'https://paypal.me/exodustwo',
+      },
+      social: {
+        facebook: '',
+        instagram: '',
+        twitter: '',
+        youtube: '',
+      },
     };
 
-    // Load saved settings
-    const saved = JSON.parse(localStorage.getItem('exodusDonate') || 'null') || defaults;
-    document.getElementById('whatsapp').value = saved.whatsapp;
-    document.getElementById('zelle').value = saved.zelle;
-    document.getElementById('paypal').value = saved.paypal;
+    // ===== Load =====
+    function load() {
+      const s = JSON.parse(localStorage.getItem('exodusAdmin') || 'null') || {};
+      const h = s.hero || DEFAULTS.hero;
+      const a = s.about || DEFAULTS.about;
+      const sv = s.services || DEFAULTS.services;
+      const t = s.team || DEFAULTS.team;
+      const c = s.contact || DEFAULTS.contact;
+      const d = s.donate || DEFAULTS.donate;
+      const so = s.social || DEFAULTS.social;
 
-    function saveSettings() {
-      const config = {
-        whatsapp: document.getElementById('whatsapp').value.trim() || defaults.whatsapp,
-        zelle: document.getElementById('zelle').value.trim() || defaults.zelle,
-        paypal: document.getElementById('paypal').value.trim() || defaults.paypal,
-      };
-      localStorage.setItem('exodusDonate', JSON.stringify(config));
-      const status = document.getElementById('status');
-      status.className = 'text-center text-sm font-medium py-2 rounded-lg bg-green-50 text-green-700 border border-green-200';
-      status.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Settings saved! Changes are live on the site.';
-      setTimeout(() => status.className = 'hidden', 3000);
+      // Hero
+      document.getElementById('heroLine1').value = h.line1;
+      document.getElementById('heroLine2').value = h.line2;
+      document.getElementById('heroSubtitle').value = h.subtitle;
+      document.getElementById('heroImage').value = h.image;
+      document.getElementById('stat1Num').value = h.stat1Num;
+      document.getElementById('stat1Label').value = h.stat1Label;
+      document.getElementById('stat2Num').value = h.stat2Num;
+      document.getElementById('stat2Label').value = h.stat2Label;
+      document.getElementById('stat3Num').value = h.stat3Num;
+      document.getElementById('stat3Label').value = h.stat3Label;
+
+      // About
+      document.getElementById('aboutTitle').value = a.title;
+      document.getElementById('aboutP1').value = a.p1;
+      document.getElementById('aboutP2').value = a.p2;
+      document.getElementById('aboutVision').value = a.vision;
+      document.getElementById('aboutMission').value = a.mission;
+
+      // Services
+      const sc = document.getElementById('servicesContainer');
+      sc.innerHTML = '';
+      sv.forEach((svc, i) => {
+        sc.innerHTML += '<div class="border border-gray-200 rounded-xl p-4 mb-3"><label class="block text-xs font-medium text-gray-500 mb-1">Service ' + (i+1) + ' Name</label><input data-svc="' + i + '" data-field="name" type="text" value="' + esc(svc.name) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2 outline-none focus:ring-2 focus:ring-amber-400" /><label class="block text-xs font-medium text-gray-500 mb-1">Description</label><textarea data-svc="' + i + '" data-field="desc" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400">' + esc(svc.desc) + '</textarea></div>';
+      });
+
+      // Team
+      const tc = document.getElementById('teamContainer');
+      tc.innerHTML = '';
+      t.forEach((m, i) => {
+        tc.innerHTML += '<div class="border border-gray-200 rounded-xl p-4 mb-3"><div class="flex items-center gap-3 mb-3"><img src="' + esc(m.image) + '" class="w-12 h-12 rounded-lg object-cover" /><div class="flex-1"><label class="block text-xs font-medium text-gray-500">Name</label><input data-team="' + i + '" data-field="name" type="text" value="' + esc(m.name) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" /></div></div><label class="block text-xs font-medium text-gray-500 mb-1">Title</label><input data-team="' + i + '" data-field="title" type="text" value="' + esc(m.title) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2 outline-none focus:ring-2 focus:ring-amber-400" /><label class="block text-xs font-medium text-gray-500 mb-1">Photo URL</label><input data-team="' + i + '" data-field="image" type="text" value="' + esc(m.image) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" /></div>';
+      });
+
+      // Contact
+      document.getElementById('contactDallas').value = c.dallas;
+      document.getElementById('contactSA').value = c.sa;
+      document.getElementById('contactRichmond').value = c.richmond;
+      document.getElementById('contactLA').value = c.la;
+      document.getElementById('contactEmail1').value = c.email1;
+      document.getElementById('contactEmail2').value = c.email2;
+      document.getElementById('contactPhone').value = c.phone || '';
+      document.getElementById('contactMap').value = c.map;
+
+      // Donate
+      document.getElementById('whatsapp').value = d.whatsapp;
+      document.getElementById('zelle').value = d.zelle;
+      document.getElementById('paypal').value = d.paypal;
+
+      // Social
+      document.getElementById('socialFacebook').value = so.facebook;
+      document.getElementById('socialInstagram').value = so.instagram;
+      document.getElementById('socialTwitter').value = so.twitter;
+      document.getElementById('socialYoutube').value = so.youtube;
     }
+
+    function esc(s) { return (s||'').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+    // ===== Save =====
+    function saveAll() {
+      const config = {
+        hero: {
+          line1: document.getElementById('heroLine1').value.trim(),
+          line2: document.getElementById('heroLine2').value.trim(),
+          subtitle: document.getElementById('heroSubtitle').value.trim(),
+          image: document.getElementById('heroImage').value.trim(),
+          stat1Num: document.getElementById('stat1Num').value.trim(),
+          stat1Label: document.getElementById('stat1Label').value.trim(),
+          stat2Num: document.getElementById('stat2Num').value.trim(),
+          stat2Label: document.getElementById('stat2Label').value.trim(),
+          stat3Num: document.getElementById('stat3Num').value.trim(),
+          stat3Label: document.getElementById('stat3Label').value.trim(),
+        },
+        about: {
+          title: document.getElementById('aboutTitle').value.trim(),
+          p1: document.getElementById('aboutP1').value.trim(),
+          p2: document.getElementById('aboutP2').value.trim(),
+          vision: document.getElementById('aboutVision').value.trim(),
+          mission: document.getElementById('aboutMission').value.trim(),
+        },
+        services: [],
+        team: [],
+        contact: {
+          dallas: document.getElementById('contactDallas').value.trim(),
+          sa: document.getElementById('contactSA').value.trim(),
+          richmond: document.getElementById('contactRichmond').value.trim(),
+          la: document.getElementById('contactLA').value.trim(),
+          email1: document.getElementById('contactEmail1').value.trim(),
+          email2: document.getElementById('contactEmail2').value.trim(),
+          phone: document.getElementById('contactPhone').value.trim(),
+          map: document.getElementById('contactMap').value.trim(),
+        },
+        donate: {
+          whatsapp: document.getElementById('whatsapp').value.trim(),
+          zelle: document.getElementById('zelle').value.trim(),
+          paypal: document.getElementById('paypal').value.trim(),
+        },
+        social: {
+          facebook: document.getElementById('socialFacebook').value.trim(),
+          instagram: document.getElementById('socialInstagram').value.trim(),
+          twitter: document.getElementById('socialTwitter').value.trim(),
+          youtube: document.getElementById('socialYoutube').value.trim(),
+        },
+      };
+
+      // Gather services
+      document.querySelectorAll('[data-svc]').forEach(el => {
+        const i = parseInt(el.dataset.svc);
+        if (!config.services[i]) config.services[i] = {};
+        config.services[i][el.dataset.field] = el.value.trim();
+      });
+
+      // Gather team
+      document.querySelectorAll('[data-team]').forEach(el => {
+        const i = parseInt(el.dataset.team);
+        if (!config.team[i]) config.team[i] = {};
+        config.team[i][el.dataset.field] = el.value.trim();
+      });
+
+      // Save - also keep old key for backwards compat
+      localStorage.setItem('exodusAdmin', JSON.stringify(config));
+      localStorage.setItem('exodusDonate', JSON.stringify(config.donate));
+
+      const status = document.getElementById('status');
+      status.className = 'mb-4 text-center text-sm font-medium py-2.5 rounded-lg bg-green-50 text-green-700 border border-green-200';
+      status.innerHTML = '<i class="fas fa-check-circle mr-1"></i> All settings saved! Changes are live on the site.';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => status.className = 'hidden mb-4', 3000);
+    }
+
+    function resetAll() {
+      if (!confirm('Reset all settings to defaults? This cannot be undone.')) return;
+      localStorage.removeItem('exodusAdmin');
+      localStorage.removeItem('exodusDonate');
+      load();
+      const status = document.getElementById('status');
+      status.className = 'mb-4 text-center text-sm font-medium py-2.5 rounded-lg bg-amber-50 text-amber-700 border border-amber-200';
+      status.innerHTML = '<i class="fas fa-undo mr-1"></i> All settings reset to defaults.';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => status.className = 'hidden mb-4', 3000);
+    }
+
+    // ===== Tabs =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    load();
   </script>
 </body>
 </html>
