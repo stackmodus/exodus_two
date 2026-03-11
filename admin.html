@@ -269,7 +269,7 @@
       const pass = document.getElementById('loginPass').value;
       const errEl = document.getElementById('loginError');
 
-      if (user !== ADMIN_USER) {
+      if (user.toLowerCase() !== ADMIN_USER.toLowerCase()) {
         errEl.textContent = 'Invalid username.';
         errEl.classList.remove('hidden');
         return;
