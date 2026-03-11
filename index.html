@@ -454,7 +454,7 @@
       } catch (e) { /* fallback: use hardcoded defaults already in HTML */ }
 
       if (_cfg) {
-        const s = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+        const s = (id, val) => { const el = document.getElementById(id); if (!el) return; if (val) { el.textContent = val; } else if (val === '') { el.textContent = ''; el.style.display = 'none'; } };
         const sa = (id, attr, val) => { const el = document.getElementById(id); if (el && val) el.setAttribute(attr, val); };
 
         // Hero
