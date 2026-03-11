@@ -517,7 +517,7 @@
       // Donate modal config
       const donateConfig = (_cfg && _cfg.donate) || { cashapp: '$exodustwo', zelle: 'info@exodustwo.org', paypal: 'https://paypal.me/exodustwo' };
       const caTag = donateConfig.cashapp || '$exodustwo';
-      document.getElementById('donateCashapp').href = 'https://cash.app/' + caTag.replace('$','$');
+      document.getElementById('donateCashapp').href = 'https://cash.app/' + caTag;
       document.getElementById('donateCashappTag').textContent = caTag;
       document.getElementById('donateZelle').dataset.copy = donateConfig.zelle;
       document.getElementById('donateZelleInfo').textContent = donateConfig.zelle;
