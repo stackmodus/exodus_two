@@ -484,19 +484,36 @@
       });
 
       try {
+        // Get current file SHA (required by GitHub API for updates)
         let sha = null;
+        // Try authenticated API first
         try {
-          const getResp = await fetch(GH_API, {
+          const getResp = await fetch(GH_API + '?t=' + Date.now(), {
             headers: {
               'Authorization': 'token ' + token,
               'Accept': 'application/vnd.github.v3+json',
             },
+            cache: 'no-store',
           });
           if (getResp.ok) {
             const fileData = await getResp.json();
             sha = fileData.sha;
           }
-        } catch (e) { /* file may not exist yet */ }
+        } catch (e) { /* try fallback */ }
+
+        // Fallback: fetch SHA without auth (works for public repos)
+        if (!sha) {
+          try {
+            const getResp2 = await fetch(GH_API + '?t=' + Date.now(), {
+              headers: { 'Accept': 'application/vnd.github.v3+json' },
+              cache: 'no-store',
+            });
+            if (getResp2.ok) {
+              const fileData2 = await getResp2.json();
+              sha = fileData2.sha;
+            }
+          } catch (e) { /* file may not exist yet */ }
+        }
 
         const content = JSON.stringify(config, null, 2) + '\n';
         const body = {
