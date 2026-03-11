@@ -416,11 +416,11 @@
       <h3 class="font-display text-2xl text-brand-900 mb-1 text-center"><i class="fas fa-heart text-gold-500 mr-2"></i>Donate</h3>
       <p class="text-sand-500 text-sm text-center mb-6">Choose a payment method below</p>
       <div class="space-y-3">
-        <a id="donateWhatsapp" href="#" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-sand-200 hover:border-green-400 hover:bg-green-50 transition group">
-          <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white"><i class="fab fa-whatsapp text-xl"></i></div>
+        <a id="donateCashapp" href="#" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-sand-200 hover:border-green-400 hover:bg-green-50 transition group">
+          <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white"><i class="fas fa-dollar-sign text-xl"></i></div>
           <div>
-            <p class="font-semibold text-brand-900 text-sm">WhatsApp</p>
-            <p id="donateWhatsappNum" class="text-sand-500 text-xs"></p>
+            <p class="font-semibold text-brand-900 text-sm">Cash App</p>
+            <p id="donateCashappTag" class="text-sand-500 text-xs"></p>
           </div>
           <i class="fas fa-arrow-right text-sand-300 group-hover:text-green-500 ml-auto transition"></i>
         </a>
@@ -515,10 +515,10 @@
       }
 
       // Donate modal config
-      const donateConfig = (_cfg && _cfg.donate) || { whatsapp: '+1 (555) 000-0000', zelle: 'info@exodustwo.org', paypal: 'https://paypal.me/exodustwo' };
-      const wpNum = donateConfig.whatsapp.replace(/[^0-9+]/g, '');
-      document.getElementById('donateWhatsapp').href = 'https://wa.me/' + wpNum.replace('+','');
-      document.getElementById('donateWhatsappNum').textContent = donateConfig.whatsapp;
+      const donateConfig = (_cfg && _cfg.donate) || { cashapp: '$exodustwo', zelle: 'info@exodustwo.org', paypal: 'https://paypal.me/exodustwo' };
+      const caTag = donateConfig.cashapp || '$exodustwo';
+      document.getElementById('donateCashapp').href = 'https://cash.app/' + caTag.replace('$','$');
+      document.getElementById('donateCashappTag').textContent = caTag;
       document.getElementById('donateZelle').dataset.copy = donateConfig.zelle;
       document.getElementById('donateZelleInfo').textContent = donateConfig.zelle;
       document.getElementById('donatePaypal').href = donateConfig.paypal;
