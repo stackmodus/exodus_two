@@ -486,42 +486,25 @@
       try {
         // Get current file SHA (required by GitHub API for updates)
         let sha = null;
-        // Try authenticated API first
-        try {
-          const getResp = await fetch(GH_API + '?t=' + Date.now(), {
-            headers: {
-              'Authorization': 'token ' + token,
-              'Accept': 'application/vnd.github.v3+json',
-            },
-            cache: 'no-store',
+        const shaResp = await fetch(GH_API, {
+          headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        });
+        if (shaResp.ok) {
+          sha = (await shaResp.json()).sha;
+        } else {
+          // Fallback: unauthenticated (public repo)
+          const shaResp2 = await fetch(GH_API, {
+            headers: { 'Accept': 'application/vnd.github.v3+json' },
           });
-          if (getResp.ok) {
-            const fileData = await getResp.json();
-            sha = fileData.sha;
-          }
-        } catch (e) { /* try fallback */ }
-
-        // Fallback: fetch SHA without auth (works for public repos)
-        if (!sha) {
-          try {
-            const getResp2 = await fetch(GH_API + '?t=' + Date.now(), {
-              headers: { 'Accept': 'application/vnd.github.v3+json' },
-              cache: 'no-store',
-            });
-            if (getResp2.ok) {
-              const fileData2 = await getResp2.json();
-              sha = fileData2.sha;
-            }
-          } catch (e) { /* file may not exist yet */ }
+          if (shaResp2.ok) sha = (await shaResp2.json()).sha;
         }
 
-        const content = JSON.stringify(config, null, 2) + '\n';
-        const body = {
-          message: 'Update site config via admin panel',
-          content: utf8ToBase64(content),
-        };
-        if (sha) body.sha = sha;
+        if (!sha) throw new Error('Could not get file SHA. The config file may not exist yet or the token may have expired.');
 
+        const content = JSON.stringify(config, null, 2) + '\n';
         const putResp = await fetch(GH_API, {
           method: 'PUT',
           headers: {
@@ -529,7 +512,11 @@
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3+json',
           },
-          body: JSON.stringify(body),
+          body: JSON.stringify({
+            message: 'Update site config via admin panel',
+            content: utf8ToBase64(content),
+            sha: sha,
+          }),
         });
 
         if (!putResp.ok) {
