@@ -43,6 +43,9 @@
     .mobile-nav.open { transform: translateY(0); pointer-events: auto; }
     .marquee-track { display: flex; animation: marquee 25s linear infinite; }
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .section-divider { height:3px; background: linear-gradient(90deg, transparent, #d4982b, transparent); }
+    .verse-glow { text-shadow: 0 0 40px rgba(212,152,43,0.15); }
+    .hero-overlay { background: linear-gradient(135deg, rgba(13,31,27,0.92) 0%, rgba(26,63,54,0.75) 40%, rgba(13,31,27,0.5) 100%); }
   </style>
 </head>
 <body class="font-sans text-brand-900 bg-sand-50 antialiased overscroll-none">
@@ -116,10 +119,10 @@
   <!-- Hero -->
   <section id="home" class="relative overflow-hidden">
     <div class="absolute inset-0">
-      <img id="ed-heroImg" src="https://exodustwo.org/wp-content/uploads/2023/06/therapist-comforting-patient-3958432.jpg" alt="" class="w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-r from-brand-900/90 via-brand-900/70 to-brand-900/40"></div>
+      <img id="ed-heroImg" src="https://images.unsplash.com/photo-1480721145676-f5c40929d80c?w=1400&q=80" alt="Open Bible" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 hero-overlay"></div>
     </div>
-    <div class="relative max-w-7xl mx-auto px-6 py-20 lg:py-28 flex items-center min-h-[70vh]">
+    <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-32 flex items-center min-h-[80vh]">
       <div class="max-w-2xl">
         <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur text-gold-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 border border-white/10">
           <span class="w-1.5 h-1.5 bg-gold-400 rounded-full"></span> 501(c) Non-Profit
@@ -144,15 +147,17 @@
   </section>
 
   <!-- Daily Bible Verse -->
-  <section class="bg-white border-b border-sand-200">
-    <div class="max-w-4xl mx-auto px-6 py-10 text-center reveal">
-      <span class="text-gold-500 font-semibold tracking-widest uppercase text-xs"><i class="fas fa-sun mr-1"></i> Today's Message of Hope</span>
+  <section class="bg-brand-900 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background-image:url('https://images.unsplash.com/photo-1480721145676-f5c40929d80c?w=1200&q=40');background-size:cover;background-position:center;filter:blur(4px)"></div>
+    <div class="relative max-w-4xl mx-auto px-6 py-14 text-center reveal">
+      <span class="text-gold-400 font-semibold tracking-widest uppercase text-xs"><i class="fas fa-book-bible mr-1"></i> Today's Message of Hope</span>
       <blockquote class="mt-4">
-        <p id="dailyVerse" class="font-display text-xl lg:text-2xl text-brand-800 italic leading-relaxed"></p>
-        <cite id="dailyRef" class="not-italic text-gold-600 font-semibold text-sm mt-3 block"></cite>
+        <p id="dailyVerse" class="font-display text-xl lg:text-2xl text-sand-100 italic leading-relaxed verse-glow"></p>
+        <cite id="dailyRef" class="not-italic text-gold-400 font-semibold text-sm mt-3 block"></cite>
       </blockquote>
     </div>
   </section>
+  <div class="section-divider"></div>
 
   <!-- About + Mission (combined) -->
   <section id="about" class="py-16 lg:py-20 bg-white">
@@ -181,14 +186,15 @@
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <img src="https://exodustwo.org/wp-content/uploads/2023/06/about-imgs.png" alt="Community" class="rounded-2xl w-full h-52 object-cover shadow-lg" />
-          <img src="https://exodustwo.org/wp-content/uploads/2023/06/a-man-and-a-woman-assisting-a-girl-while-jumping-1128317-1.jpg" alt="Family" class="rounded-2xl w-full h-52 object-cover shadow-lg mt-6" />
-          <img src="https://exodustwo.org/wp-content/uploads/2023/06/13.jpg" alt="Outreach" class="rounded-2xl w-full h-52 object-cover shadow-lg -mt-6" />
-          <img src="https://exodustwo.org/wp-content/uploads/2023/06/man-in-black-suit-sitting-on-chair-in-front-of-man-in-black-4101187-1.jpg" alt="Counseling" class="rounded-2xl w-full h-52 object-cover shadow-lg" />
+          <img src="https://images.unsplash.com/photo-1687563100680-6b763a90da45?w=800&q=80" alt="Prayer group" class="rounded-2xl w-full h-52 object-cover shadow-lg" />
+          <img src="https://images.unsplash.com/photo-1717266266451-afa8e39747da?w=800&q=80" alt="Helping hands" class="rounded-2xl w-full h-52 object-cover shadow-lg mt-6" />
+          <img src="https://images.unsplash.com/photo-1759127481171-30a27de310ad?w=800&q=80" alt="Church worship" class="rounded-2xl w-full h-52 object-cover shadow-lg -mt-6" />
+          <img src="https://images.unsplash.com/photo-1522008660239-1bbdb39444c4?w=800&q=80" alt="Bible reading" class="rounded-2xl w-full h-52 object-cover shadow-lg" />
         </div>
       </div>
     </div>
   </section>
+  <div class="section-divider"></div>
 
   <!-- Services (compact grid) -->
   <section id="services" class="py-16 lg:py-20 bg-sand-50">
