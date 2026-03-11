@@ -424,14 +424,7 @@
           </div>
           <i class="fas fa-copy text-sand-300 group-hover:text-violet-500 ml-auto transition cursor-pointer" onclick="event.preventDefault();event.stopPropagation();navigator.clipboard.writeText(this.closest('a').dataset.copy);this.className='fas fa-check text-green-500 ml-auto transition';setTimeout(()=>this.className='fas fa-copy text-sand-300 group-hover:text-violet-500 ml-auto transition cursor-pointer',1500)"></i>
         </a>
-        <a id="donatePaypal" href="#" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-sand-200 hover:border-blue-400 hover:bg-blue-50 transition group">
-          <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white"><i class="fab fa-paypal text-xl"></i></div>
-          <div>
-            <p class="font-semibold text-brand-900 text-sm">PayPal</p>
-            <p id="donatePaypalInfo" class="text-brand-700 text-xs"></p>
-          </div>
-          <i class="fas fa-arrow-right text-sand-300 group-hover:text-blue-500 ml-auto transition"></i>
-        </a>
+
       </div>
     </div>
   </div>
@@ -510,8 +503,6 @@
       document.getElementById('donateCashappTag').textContent = caTag;
       document.getElementById('donateZelle').dataset.copy = donateConfig.zelle;
       document.getElementById('donateZelleInfo').textContent = donateConfig.zelle;
-      document.getElementById('donatePaypal').href = donateConfig.paypal;
-      document.getElementById('donatePaypalInfo').textContent = donateConfig.paypal.replace('https://','');
     })();
   </script>
 
