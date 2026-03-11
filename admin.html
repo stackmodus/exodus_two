@@ -17,6 +17,33 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
 
+  <!-- Login Screen -->
+  <div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 w-full max-w-sm text-center">
+      <img src="https://exodustwo.org/wp-content/uploads/2023/06/EXODUS.png" alt="Exodus T.W.O" class="h-16 mx-auto mb-4" />
+      <h1 class="font-semibold text-gray-900 text-xl mb-1" style="font-family:'DM Serif Display'">Admin Login</h1>
+      <p class="text-gray-400 text-sm mb-6">Enter your credentials to manage the site</p>
+      <div class="space-y-3 text-left">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input id="loginUser" type="text" placeholder="Username" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input id="loginPass" type="password" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none" onkeydown="if(event.key==='Enter')doLogin()" />
+        </div>
+      </div>
+      <button onclick="doLogin()" class="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-lg font-semibold transition cursor-pointer mt-4">
+        <i class="fas fa-sign-in-alt mr-2"></i>Log In
+      </button>
+      <div id="loginError" class="text-red-500 text-sm mt-3 hidden"></div>
+      <a href="index.html" class="text-gray-400 hover:text-gray-600 text-xs mt-4 inline-block">Back to site</a>
+    </div>
+  </div>
+
+  <!-- Admin Panel (hidden until login) -->
+  <div id="adminPanel" class="hidden">
+
   <!-- Header -->
   <div class="bg-white border-b border-gray-200 sticky top-0 z-10">
     <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -26,6 +53,7 @@
       </div>
       <div class="flex items-center gap-3">
         <a href="index.html" class="text-gray-500 hover:text-gray-700 text-sm"><i class="fas fa-external-link-alt mr-1"></i>View Site</a>
+        <button onclick="doLogout()" class="text-gray-500 hover:text-gray-700 text-sm"><i class="fas fa-sign-out-alt mr-1"></i>Logout</button>
         <button id="saveBtn" onclick="saveAll()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition cursor-pointer">
           <i class="fas fa-save mr-1"></i>Save All
         </button>
@@ -36,32 +64,6 @@
   <div class="max-w-3xl mx-auto px-4 py-6">
     <!-- Status -->
     <div id="status" class="hidden mb-4 text-center text-sm font-medium py-2.5 rounded-lg"></div>
-
-    <!-- GitHub Setup Section -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
-      <h2 class="font-semibold text-gray-900 text-lg mb-1"><i class="fab fa-github mr-2"></i>GitHub Setup</h2>
-      <p class="text-gray-400 text-xs mb-4">A GitHub Personal Access Token is required to save config changes to the repository. The token is stored only in this browser's localStorage.</p>
-      <div class="flex gap-3 items-end">
-        <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Personal Access Token</label>
-          <input id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none font-mono" />
-        </div>
-        <button onclick="saveToken()" class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition cursor-pointer whitespace-nowrap">
-          <i class="fas fa-key mr-1"></i>Save Token
-        </button>
-      </div>
-      <div id="tokenStatus" class="mt-2 text-xs"></div>
-      <details class="mt-3">
-        <summary class="text-xs text-blue-600 cursor-pointer hover:underline">How to create a token</summary>
-        <ol class="text-xs text-gray-500 mt-2 ml-4 list-decimal space-y-1">
-          <li>Go to <a href="https://github.com/settings/tokens" target="_blank" class="text-blue-600 underline">GitHub Settings &gt; Personal Access Tokens</a></li>
-          <li>Click "Generate new token (classic)"</li>
-          <li>Give it a name like "Exodus Admin"</li>
-          <li>Select the <strong>repo</strong> scope (Full control of private repositories)</li>
-          <li>Click "Generate token" and paste it above</li>
-        </ol>
-      </details>
-    </div>
 
     <!-- Tabs -->
     <div class="flex flex-wrap gap-2 mb-6">
@@ -244,11 +246,92 @@
     </div>
   </div>
 
+  </div><!-- close adminPanel -->
+
   <script>
     // ===== GitHub Config =====
     const GH_REPO = 'stackmodus/exodus_two';
     const GH_FILE = 'config.json';
     const GH_API = 'https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE;
+
+    // ===== Encrypted GitHub Token (AES-256-GCM, password = admin password) =====
+    const ENC = {
+      salt: 'G97za1Okv6s+wRlfz8OkYg==',
+      iv:   'W3gSIc57jLq/x82T',
+      tag:  'bWPojvON30jsBzzar1yrfg==',
+      data: 'hAhY5+4j0ohVk9nVwhMfBE0rbZZtdPuRFwIc6q/+7B6B97yM2jgDhA==',
+    };
+    const ADMIN_USER = 'Admin';
+
+    // ===== Login / Logout =====
+    async function doLogin() {
+      const user = document.getElementById('loginUser').value.trim();
+      const pass = document.getElementById('loginPass').value;
+      const errEl = document.getElementById('loginError');
+
+      if (user !== ADMIN_USER) {
+        errEl.textContent = 'Invalid username.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const token = await decryptToken(pass);
+        sessionStorage.setItem('_exToken', token);
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        load();
+      } catch (e) {
+        errEl.textContent = 'Invalid password.';
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    function doLogout() {
+      sessionStorage.removeItem('_exToken');
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+      document.getElementById('loginError').classList.add('hidden');
+    }
+
+    function getToken() {
+      return sessionStorage.getItem('_exToken') || '';
+    }
+
+    // ===== AES-256-GCM Decrypt via Web Crypto =====
+    async function decryptToken(password) {
+      const salt = Uint8Array.from(atob(ENC.salt), c => c.charCodeAt(0));
+      const iv   = Uint8Array.from(atob(ENC.iv),   c => c.charCodeAt(0));
+      const tag  = Uint8Array.from(atob(ENC.tag),   c => c.charCodeAt(0));
+      const data = Uint8Array.from(atob(ENC.data),  c => c.charCodeAt(0));
+
+      // Combine ciphertext + auth tag (Web Crypto expects them concatenated)
+      const combined = new Uint8Array(data.length + tag.length);
+      combined.set(data);
+      combined.set(tag, data.length);
+
+      // Derive key from password using PBKDF2 (must match Node.js encryption params)
+      const enc = new TextEncoder();
+      const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+      const key = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+      );
+
+      const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, combined);
+      return new TextDecoder().decode(decrypted);
+    }
+
+    // ===== Auto-login if session token exists =====
+    if (getToken()) {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+    }
 
     // ===== Default Values =====
     const DEFAULTS = {
@@ -304,37 +387,14 @@
       },
     };
 
-    // ===== Token Management =====
-    function getToken() {
-      return localStorage.getItem('ghToken_exodus') || '';
-    }
-
-    function saveToken() {
-      const token = document.getElementById('ghToken').value.trim();
-      if (!token) {
-        showTokenStatus('Please enter a token.', 'red');
-        return;
-      }
-      localStorage.setItem('ghToken_exodus', token);
-      showTokenStatus('Token saved to this browser.', 'green');
-    }
-
-    function showTokenStatus(msg, color) {
-      const el = document.getElementById('tokenStatus');
-      el.textContent = msg;
-      el.className = 'mt-2 text-xs text-' + color + '-600';
-    }
-
     // ===== Load config from GitHub =====
     async function load() {
       let cfg = null;
       try {
-        // Fetch from the site itself (works for GitHub Pages public repos)
         const resp = await fetch('config.json?t=' + Date.now());
         if (resp.ok) cfg = await resp.json();
       } catch (e) { /* ignore */ }
 
-      // If that fails, try the GitHub raw URL
       if (!cfg) {
         try {
           const resp = await fetch('https://raw.githubusercontent.com/' + GH_REPO + '/main/' + GH_FILE + '?t=' + Date.now());
@@ -351,7 +411,6 @@
       const d = s.donate || DEFAULTS.donate;
       const so = s.social || DEFAULTS.social;
 
-      // Hero
       document.getElementById('heroLine1').value = h.line1;
       document.getElementById('heroLine2').value = h.line2;
       document.getElementById('heroSubtitle').value = h.subtitle;
@@ -363,28 +422,24 @@
       document.getElementById('stat3Num').value = h.stat3Num;
       document.getElementById('stat3Label').value = h.stat3Label;
 
-      // About
       document.getElementById('aboutTitle').value = a.title;
       document.getElementById('aboutP1').value = a.p1;
       document.getElementById('aboutP2').value = a.p2;
       document.getElementById('aboutVision').value = a.vision;
       document.getElementById('aboutMission').value = a.mission;
 
-      // Services
       const sc = document.getElementById('servicesContainer');
       sc.innerHTML = '';
       sv.forEach((svc, i) => {
         sc.innerHTML += '<div class="border border-gray-200 rounded-xl p-4 mb-3"><label class="block text-xs font-medium text-gray-500 mb-1">Service ' + (i+1) + ' Name</label><input data-svc="' + i + '" data-field="name" type="text" value="' + esc(svc.name) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2 outline-none focus:ring-2 focus:ring-amber-400" /><label class="block text-xs font-medium text-gray-500 mb-1">Description</label><textarea data-svc="' + i + '" data-field="desc" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400">' + esc(svc.desc) + '</textarea></div>';
       });
 
-      // Team
       const tc = document.getElementById('teamContainer');
       tc.innerHTML = '';
       t.forEach((m, i) => {
         tc.innerHTML += '<div class="border border-gray-200 rounded-xl p-4 mb-3"><div class="flex items-center gap-3 mb-3"><img src="' + esc(m.image) + '" class="w-12 h-12 rounded-lg object-cover" /><div class="flex-1"><label class="block text-xs font-medium text-gray-500">Name</label><input data-team="' + i + '" data-field="name" type="text" value="' + esc(m.name) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" /></div></div><label class="block text-xs font-medium text-gray-500 mb-1">Title</label><input data-team="' + i + '" data-field="title" type="text" value="' + esc(m.title) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2 outline-none focus:ring-2 focus:ring-amber-400" /><label class="block text-xs font-medium text-gray-500 mb-1">Photo URL</label><input data-team="' + i + '" data-field="image" type="text" value="' + esc(m.image) + '" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400" /></div>';
       });
 
-      // Contact
       document.getElementById('contactDallas').value = c.dallas;
       document.getElementById('contactSA').value = c.sa;
       document.getElementById('contactRichmond').value = c.richmond;
@@ -394,28 +449,18 @@
       document.getElementById('contactPhone').value = c.phone || '';
       document.getElementById('contactMap').value = c.map;
 
-      // Donate
       document.getElementById('whatsapp').value = d.whatsapp;
       document.getElementById('zelle').value = d.zelle;
       document.getElementById('paypal').value = d.paypal;
 
-      // Social
       document.getElementById('socialFacebook').value = so.facebook;
       document.getElementById('socialInstagram').value = so.instagram;
       document.getElementById('socialTwitter').value = so.twitter;
       document.getElementById('socialYoutube').value = so.youtube;
-
-      // Load saved token
-      const savedToken = getToken();
-      if (savedToken) {
-        document.getElementById('ghToken').value = savedToken;
-        showTokenStatus('Token loaded from browser storage.', 'green');
-      }
     }
 
     function esc(s) { return (s||'').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
-    // ===== Base64 encode (supports unicode) =====
     function utf8ToBase64(str) {
       return btoa(unescape(encodeURIComponent(str)));
     }
@@ -424,16 +469,13 @@
     async function saveAll() {
       const token = getToken();
       if (!token) {
-        const input = prompt('Enter your GitHub Personal Access Token (with repo scope):');
-        if (!input) return;
-        localStorage.setItem('ghToken_exodus', input.trim());
-        document.getElementById('ghToken').value = input.trim();
-        showTokenStatus('Token saved to this browser.', 'green');
+        showStatus('Session expired. Please log in again.', 'red');
+        doLogout();
+        return;
       }
 
       const config = gatherConfig();
 
-      // Show loading state on both save buttons
       const btns = [document.getElementById('saveBtn'), document.getElementById('saveBtn2')];
       btns.forEach(b => {
         b.disabled = true;
@@ -442,13 +484,11 @@
       });
 
       try {
-        // Step 1: Get current file SHA
-        const currentToken = getToken();
         let sha = null;
         try {
           const getResp = await fetch(GH_API, {
             headers: {
-              'Authorization': 'token ' + currentToken,
+              'Authorization': 'token ' + token,
               'Accept': 'application/vnd.github.v3+json',
             },
           });
@@ -458,7 +498,6 @@
           }
         } catch (e) { /* file may not exist yet */ }
 
-        // Step 2: PUT the updated file
         const content = JSON.stringify(config, null, 2) + '\n';
         const body = {
           message: 'Update site config via admin panel',
@@ -469,7 +508,7 @@
         const putResp = await fetch(GH_API, {
           method: 'PUT',
           headers: {
-            'Authorization': 'token ' + currentToken,
+            'Authorization': 'token ' + token,
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3+json',
           },
@@ -481,7 +520,7 @@
           throw new Error(err.message || 'GitHub API error (' + putResp.status + ')');
         }
 
-        showStatus('All settings saved to GitHub! Changes will be live shortly after GitHub Pages rebuilds.', 'green');
+        showStatus('All settings saved! Changes will be live shortly after GitHub Pages rebuilds.', 'green');
       } catch (err) {
         showStatus('Save failed: ' + err.message, 'red');
       } finally {
@@ -539,14 +578,12 @@
         },
       };
 
-      // Gather services
       document.querySelectorAll('[data-svc]').forEach(el => {
         const i = parseInt(el.dataset.svc);
         if (!config.services[i]) config.services[i] = {};
         config.services[i][el.dataset.field] = el.value.trim();
       });
 
-      // Gather team
       document.querySelectorAll('[data-team]').forEach(el => {
         const i = parseInt(el.dataset.team);
         if (!config.team[i]) config.team[i] = {};
@@ -567,9 +604,7 @@
 
     function resetAll() {
       if (!confirm('Reset all settings to defaults? This will save defaults to GitHub and cannot be undone.')) return;
-      // Fill form with defaults
       populateForm(DEFAULTS);
-      // Then save to GitHub
       saveAll();
     }
 
@@ -616,7 +651,8 @@
       });
     });
 
-    load();
+    // Load config if already logged in
+    if (getToken()) load();
   </script>
 </body>
 </html>
