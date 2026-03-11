@@ -1,8 +1,7 @@
-const CACHE_NAME = 'exodus-two-v3';
+const CACHE_NAME = 'exodus-two-v4';
 const ASSETS = [
   '/exodus_two/',
   '/exodus_two/index.html',
-  '/exodus_two/config.json',
   '/exodus_two/manifest.json',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap',
@@ -24,6 +23,11 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  // Never cache config.json - always fetch fresh
+  if (e.request.url.includes('config.json')) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
   e.respondWith(
     fetch(e.request)
       .then(res => {
