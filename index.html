@@ -445,78 +445,85 @@
   </div>
 
   <script>
-    // ===== Load all admin config from localStorage =====
-    const _cfg = JSON.parse(localStorage.getItem('exodusAdmin') || 'null');
-    if (_cfg) {
-      const s = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
-      const sa = (id, attr, val) => { const el = document.getElementById(id); if (el && val) el.setAttribute(attr, val); };
+    // ===== Load config from config.json (fetched from repo / site) =====
+    (async function loadConfig() {
+      let _cfg = null;
+      try {
+        const resp = await fetch('config.json?t=' + Date.now());
+        if (resp.ok) _cfg = await resp.json();
+      } catch (e) { /* fallback: use hardcoded defaults already in HTML */ }
 
-      // Hero
-      if (_cfg.hero) {
-        s('ed-heroLine1', _cfg.hero.line1);
-        s('ed-heroLine2', _cfg.hero.line2);
-        s('ed-heroSub', _cfg.hero.subtitle);
-        if (_cfg.hero.image) sa('ed-heroImg', 'src', _cfg.hero.image);
-        s('ed-stat1Num', _cfg.hero.stat1Num); s('ed-stat1Label', _cfg.hero.stat1Label);
-        s('ed-stat2Num', _cfg.hero.stat2Num); s('ed-stat2Label', _cfg.hero.stat2Label);
-        s('ed-stat3Num', _cfg.hero.stat3Num); s('ed-stat3Label', _cfg.hero.stat3Label);
-      }
-      // About
-      if (_cfg.about) {
-        s('ed-aboutTitle', _cfg.about.title);
-        s('ed-aboutP1', _cfg.about.p1);
-        s('ed-aboutP2', _cfg.about.p2);
-        s('ed-aboutVision', _cfg.about.vision);
-        s('ed-aboutMission', _cfg.about.mission);
-      }
-      // Services
-      if (_cfg.services) {
-        _cfg.services.forEach((svc, i) => {
-          s('ed-svc'+i+'name', svc.name);
-          s('ed-svc'+i+'desc', svc.desc);
-        });
-      }
-      // Team
-      if (_cfg.team) {
-        _cfg.team.forEach((m, i) => {
-          s('ed-team'+i+'name', m.name);
-          s('ed-team'+i+'title', m.title);
-          if (m.image) sa('ed-team'+i+'img', 'src', m.image);
-        });
-      }
-      // Contact
-      if (_cfg.contact) {
-        s('ed-contactDallas', _cfg.contact.dallas);
-        s('ed-contactSA', _cfg.contact.sa);
-        s('ed-contactRichmond', _cfg.contact.richmond);
-        s('ed-contactLA', _cfg.contact.la);
-        const e1 = document.getElementById('ed-contactEmail1');
-        const e2 = document.getElementById('ed-contactEmail2');
-        if (e1 && _cfg.contact.email1) { e1.textContent = _cfg.contact.email1; e1.href = 'mailto:' + _cfg.contact.email1; }
-        if (e2 && _cfg.contact.email2) { e2.textContent = _cfg.contact.email2; e2.href = 'mailto:' + _cfg.contact.email2; }
-        if (_cfg.contact.map) {
-          const mapEl = document.getElementById('ed-map');
-          if (mapEl) mapEl.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(_cfg.contact.map) + '&t=m&z=12&output=embed&iwloc=near';
+      if (_cfg) {
+        const s = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+        const sa = (id, attr, val) => { const el = document.getElementById(id); if (el && val) el.setAttribute(attr, val); };
+
+        // Hero
+        if (_cfg.hero) {
+          s('ed-heroLine1', _cfg.hero.line1);
+          s('ed-heroLine2', _cfg.hero.line2);
+          s('ed-heroSub', _cfg.hero.subtitle);
+          if (_cfg.hero.image) sa('ed-heroImg', 'src', _cfg.hero.image);
+          s('ed-stat1Num', _cfg.hero.stat1Num); s('ed-stat1Label', _cfg.hero.stat1Label);
+          s('ed-stat2Num', _cfg.hero.stat2Num); s('ed-stat2Label', _cfg.hero.stat2Label);
+          s('ed-stat3Num', _cfg.hero.stat3Num); s('ed-stat3Label', _cfg.hero.stat3Label);
+        }
+        // About
+        if (_cfg.about) {
+          s('ed-aboutTitle', _cfg.about.title);
+          s('ed-aboutP1', _cfg.about.p1);
+          s('ed-aboutP2', _cfg.about.p2);
+          s('ed-aboutVision', _cfg.about.vision);
+          s('ed-aboutMission', _cfg.about.mission);
+        }
+        // Services
+        if (_cfg.services) {
+          _cfg.services.forEach((svc, i) => {
+            s('ed-svc'+i+'name', svc.name);
+            s('ed-svc'+i+'desc', svc.desc);
+          });
+        }
+        // Team
+        if (_cfg.team) {
+          _cfg.team.forEach((m, i) => {
+            s('ed-team'+i+'name', m.name);
+            s('ed-team'+i+'title', m.title);
+            if (m.image) sa('ed-team'+i+'img', 'src', m.image);
+          });
+        }
+        // Contact
+        if (_cfg.contact) {
+          s('ed-contactDallas', _cfg.contact.dallas);
+          s('ed-contactSA', _cfg.contact.sa);
+          s('ed-contactRichmond', _cfg.contact.richmond);
+          s('ed-contactLA', _cfg.contact.la);
+          const e1 = document.getElementById('ed-contactEmail1');
+          const e2 = document.getElementById('ed-contactEmail2');
+          if (e1 && _cfg.contact.email1) { e1.textContent = _cfg.contact.email1; e1.href = 'mailto:' + _cfg.contact.email1; }
+          if (e2 && _cfg.contact.email2) { e2.textContent = _cfg.contact.email2; e2.href = 'mailto:' + _cfg.contact.email2; }
+          if (_cfg.contact.map) {
+            const mapEl = document.getElementById('ed-map');
+            if (mapEl) mapEl.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(_cfg.contact.map) + '&t=m&z=12&output=embed&iwloc=near';
+          }
+        }
+        // Social
+        if (_cfg.social) {
+          if (_cfg.social.facebook) sa('ed-socialFb', 'href', _cfg.social.facebook);
+          if (_cfg.social.instagram) sa('ed-socialIg', 'href', _cfg.social.instagram);
+          if (_cfg.social.twitter) sa('ed-socialTw', 'href', _cfg.social.twitter);
+          if (_cfg.social.youtube) sa('ed-socialYt', 'href', _cfg.social.youtube);
         }
       }
-      // Social
-      if (_cfg.social) {
-        if (_cfg.social.facebook) sa('ed-socialFb', 'href', _cfg.social.facebook);
-        if (_cfg.social.instagram) sa('ed-socialIg', 'href', _cfg.social.instagram);
-        if (_cfg.social.twitter) sa('ed-socialTw', 'href', _cfg.social.twitter);
-        if (_cfg.social.youtube) sa('ed-socialYt', 'href', _cfg.social.youtube);
-      }
-    }
 
-    // Donate modal config
-    const donateConfig = (_cfg && _cfg.donate) || { whatsapp: '+1 (555) 000-0000', zelle: 'info@exodustwo.org', paypal: 'https://paypal.me/exodustwo' };
-    const wpNum = donateConfig.whatsapp.replace(/[^0-9+]/g, '');
-    document.getElementById('donateWhatsapp').href = 'https://wa.me/' + wpNum.replace('+','');
-    document.getElementById('donateWhatsappNum').textContent = donateConfig.whatsapp;
-    document.getElementById('donateZelle').dataset.copy = donateConfig.zelle;
-    document.getElementById('donateZelleInfo').textContent = donateConfig.zelle;
-    document.getElementById('donatePaypal').href = donateConfig.paypal;
-    document.getElementById('donatePaypalInfo').textContent = donateConfig.paypal.replace('https://','');
+      // Donate modal config
+      const donateConfig = (_cfg && _cfg.donate) || { whatsapp: '+1 (555) 000-0000', zelle: 'info@exodustwo.org', paypal: 'https://paypal.me/exodustwo' };
+      const wpNum = donateConfig.whatsapp.replace(/[^0-9+]/g, '');
+      document.getElementById('donateWhatsapp').href = 'https://wa.me/' + wpNum.replace('+','');
+      document.getElementById('donateWhatsappNum').textContent = donateConfig.whatsapp;
+      document.getElementById('donateZelle').dataset.copy = donateConfig.zelle;
+      document.getElementById('donateZelleInfo').textContent = donateConfig.zelle;
+      document.getElementById('donatePaypal').href = donateConfig.paypal;
+      document.getElementById('donatePaypalInfo').textContent = donateConfig.paypal.replace('https://','');
+    })();
   </script>
 
   <script>

@@ -1,0 +1,55 @@
+{
+  "hero": {
+    "line1": "Compassionate Service,",
+    "line2": "A Way Out",
+    "subtitle": "Exodus T.W.O empowers individuals facing mental health challenges, incarceration, addiction, and homelessness with real pathways to recovery.",
+    "image": "https://exodustwo.org/wp-content/uploads/2023/06/therapist-comforting-patient-3958432.jpg",
+    "stat1Num": "25+",
+    "stat1Label": "Years Exp.",
+    "stat2Num": "4",
+    "stat2Label": "Locations",
+    "stat3Num": "10+",
+    "stat3Label": "Programs"
+  },
+  "about": {
+    "title": "Who We Are",
+    "p1": "Exodus T.W.O (The Way Out) is a non-profit inspired by the Book of Exodus - drawing a parallel between the plights of ancient Israelites and individuals grappling with mental illness today. We offer a way out from the constraints caused by mental illness.",
+    "p2": "Through collaboration with various stakeholders, we facilitate access to counseling, legal advocacy, employment opportunities, and community integration.",
+    "vision": "A society where everyone receives compassionate support and equitable treatment.",
+    "mission": "Breaking barriers and stigmas, offering a pathway to recovery for all."
+  },
+  "services": [
+    { "name": "Mental Health", "desc": "Counseling, crisis intervention, and resources for those with mental health disorders." },
+    { "name": "Addiction Recovery", "desc": "Root-cause treatment with counseling, group therapy, and recovery management." },
+    { "name": "Prison Programs", "desc": "Advocacy for incarcerated individuals - fair treatment and rehabilitation resources." },
+    { "name": "Homeless Support", "desc": "Resettlement assistance to rebuild lives with dignity and essential resources." },
+    { "name": "Youth Services", "desc": "Specialized programs for adolescent mental health and substance abuse." },
+    { "name": "Digital Equity", "desc": "Bridging the digital divide for underserved communities." }
+  ],
+  "team": [
+    { "name": "Anne Ogutu", "title": "Founder, Chaplain & Bible Worker", "image": "https://exodustwo.org/wp-content/uploads/2023/06/unnamed.png" },
+    { "name": "Gloria Ikonne", "title": "Director & Bible Worker", "image": "https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-02-at-3.53.30-AM.jpeg" },
+    { "name": "Pauline Pennant", "title": "Director Adolescent Programs - Houston", "image": "https://exodustwo.org/wp-content/uploads/2023/07/WhatsApp-Image-2023-07-09-at-3.32.06-PM-1.jpeg" }
+  ],
+  "contact": {
+    "dallas": "4245 N Central Expy, Ste 490, TX 75205",
+    "sa": "San Antonio: 7810 Bluewater Cove, TX 78254",
+    "richmond": "Richmond: 23510 Windy Bank Ln, TX 77407",
+    "la": "Louisiana: 2924 Keithway Dr, Harvey, LA 70056",
+    "email1": "info@exodustwo.org",
+    "email2": "support@exodustwo.org",
+    "phone": "",
+    "map": "4245 N Central Expy, Ste 490 Dallas, TX 75205"
+  },
+  "donate": {
+    "whatsapp": "+1 (555) 000-0000",
+    "zelle": "info@exodustwo.org",
+    "paypal": "https://paypal.me/exodustwo"
+  },
+  "social": {
+    "facebook": "",
+    "instagram": "",
+    "twitter": "",
+    "youtube": ""
+  }
+}

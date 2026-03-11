@@ -1,7 +1,8 @@
-const CACHE_NAME = 'exodus-two-v1';
+const CACHE_NAME = 'exodus-two-v2';
 const ASSETS = [
   '/exodus_two/',
   '/exodus_two/index.html',
+  '/exodus_two/config.json',
   '/exodus_two/manifest.json',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap',
