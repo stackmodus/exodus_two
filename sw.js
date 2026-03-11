@@ -1,4 +1,4 @@
-const CACHE_NAME = 'exodus-two-v2';
+const CACHE_NAME = 'exodus-two-v3';
 const ASSETS = [
   '/exodus_two/',
   '/exodus_two/index.html',
