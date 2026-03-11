@@ -40,7 +40,7 @@
     .img-zoom { transition: transform 0.6s ease; }
     .img-zoom:hover { transform: scale(1.04); }
     .mobile-nav { transform: translateY(-100%); transition: transform 0.4s ease; }
-    .mobile-nav.open { transform: translateY(0); }
+    .mobile-nav.open { transform: translateY(0); pointer-events: auto; }
     .marquee-track { display: flex; animation: marquee 25s linear infinite; }
     @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
   </style>
@@ -66,7 +66,7 @@
       </div>
       <button id="menuBtn" class="lg:hidden text-brand-700 text-xl"><i class="fas fa-bars"></i></button>
     </div>
-    <div id="mobileNav" class="mobile-nav fixed inset-0 bg-brand-900/95 backdrop-blur-lg z-50 flex flex-col items-center justify-center gap-6 lg:hidden">
+    <div id="mobileNav" class="mobile-nav pointer-events-none fixed inset-0 bg-brand-900/95 backdrop-blur-lg z-50 flex flex-col items-center justify-center gap-6 lg:hidden">
       <button id="closeNav" class="absolute top-5 right-5 text-white text-2xl"><i class="fas fa-times"></i></button>
       <a href="#home" class="text-white text-xl font-display mob-link">Home</a>
       <a href="#about" class="text-white text-xl font-display mob-link">About</a>
